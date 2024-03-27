@@ -14,9 +14,3 @@ services:
 #      - ./data/postgres/users:/var/lib/postgresql/data
       - ./init/user-service-init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
-    networks:
-      - bidding-backend
-
-networks:
-  bidding-backend:
-    driver: bridge
