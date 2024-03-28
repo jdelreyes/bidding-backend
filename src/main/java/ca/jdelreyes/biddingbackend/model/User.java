@@ -1,7 +1,10 @@
-package ca.jdelreyes.biddingbackend.model.user;
+package ca.jdelreyes.biddingbackend.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,12 +24,16 @@ public class User implements UserDetails {
     private Integer id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
 
-//    EnumType.STRING takes the string value of the enum
+    //    EnumType.STRING takes the string value of the enum
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> items;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

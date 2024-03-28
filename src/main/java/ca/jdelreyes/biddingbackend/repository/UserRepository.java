@@ -1,6 +1,6 @@
 package ca.jdelreyes.biddingbackend.repository;
 
-import ca.jdelreyes.biddingbackend.model.user.User;
+import ca.jdelreyes.biddingbackend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

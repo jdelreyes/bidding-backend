@@ -11,6 +11,16 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: bidding-backend
     volumes:
-#      - ./data/postgres/users:/var/lib/postgresql/data
+      #      - ./data/postgres/users:/var/lib/postgresql/data
       - ./init/user-service-init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:8.3
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@domain.ca
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - "80:80"
