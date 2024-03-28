@@ -18,7 +18,7 @@ public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private double amount;
+    private Double amount;
 
     private LocalDateTime dateTimeBid = LocalDateTime.now();
 

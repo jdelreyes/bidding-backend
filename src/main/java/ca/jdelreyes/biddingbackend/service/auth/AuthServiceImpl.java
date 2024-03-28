@@ -3,7 +3,7 @@ package ca.jdelreyes.biddingbackend.service.auth;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthRequest;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthResponse;
 import ca.jdelreyes.biddingbackend.dto.auth.RegisterRequest;
-import ca.jdelreyes.biddingbackend.model.Role;
+import ca.jdelreyes.biddingbackend.model.enums.Role;
 import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.repository.UserRepository;
 import ca.jdelreyes.biddingbackend.service.jwt.JwtServiceImpl;

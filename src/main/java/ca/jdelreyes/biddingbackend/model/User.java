@@ -1,5 +1,6 @@
 package ca.jdelreyes.biddingbackend.model;
 
+import ca.jdelreyes.biddingbackend.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

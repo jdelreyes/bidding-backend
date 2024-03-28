@@ -18,20 +18,20 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
     private String description;
-    private double startBidAmount;
-    private double bidIncrement;
+
+    private Double startBidAmount;
+    private Double bidIncrement = 0.1;
+
     @Builder.Default
     private LocalDateTime dateTimeCreated = LocalDateTime.now();
 
-    @ManyToOne
-    private User user;
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    private User seller;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Category category;
-
-    @ManyToOne
-    private Auction auction;
 
 }

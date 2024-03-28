@@ -21,4 +21,7 @@ public class Auction {
     private LocalDateTime dateTimeStarted;
     private LocalDateTime dateTimeEnded;
 
+    @OneToOne
+    private User winner;
+
 }

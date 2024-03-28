@@ -4,6 +4,7 @@ import ca.jdelreyes.biddingbackend.dto.auth.AuthRequest;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthResponse;
 import ca.jdelreyes.biddingbackend.dto.auth.RegisterRequest;
 import ca.jdelreyes.biddingbackend.service.auth.AuthServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
-            @RequestBody RegisterRequest registerRequest
+            @Valid @RequestBody RegisterRequest registerRequest
     ) {
         return new ResponseEntity<>(authService.register(registerRequest), HttpStatus.CREATED);
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticate(
-            @RequestBody AuthRequest authRequest
+            @Valid @RequestBody AuthRequest authRequest
     ) {
         return ResponseEntity.ok(authService.authenticate(authRequest));
     }

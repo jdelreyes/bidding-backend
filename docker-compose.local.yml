@@ -1,26 +1,20 @@
 version: '3.8'
 
 services:
-  postgresql-bidding-backend:
-    container_name: postgresql-bidding-backend
-    image: postgres:16-alpine
+  mysql-bidding-backend:
+    container_name: mysql-bidding-backend
+    image: mysql:8.3.0
     ports:
-      - "5432:5432"
+      - "3306:3306"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: bidding-backend
-    volumes:
-      #      - ./data/postgres/users:/var/lib/postgresql/data
-      - ./init/user-service-init.sql:/docker-entrypoint-initdb.d/init.sql
+      MYSQL_DATABASE: bidding-backend
+      MYSQL_ROOT_PASSWORD: password
     restart: unless-stopped
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:8.3
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
     restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@domain.ca
-      PGADMIN_DEFAULT_PASSWORD: password
     ports:
       - "80:80"
+    environment:
+      - PMA_ARBITRARY=1
