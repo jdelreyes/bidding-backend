@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,12 +29,11 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-    //    EnumType.STRING takes the string value of the enum
+    private LocalDateTime dateTimeCreated = LocalDateTime.now();
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Item> items;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

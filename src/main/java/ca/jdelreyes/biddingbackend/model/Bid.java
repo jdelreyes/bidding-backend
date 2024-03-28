@@ -8,30 +8,26 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "items")
-public class Item {
+@Table(name = "bids")
+public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    private String description;
-    private double startBidAmount;
-    private double bidIncrement;
-    @Builder.Default
-    private LocalDateTime dateTimeCreated = LocalDateTime.now();
+    private double amount;
+
+    private LocalDateTime dateTimeBid = LocalDateTime.now();
 
     @ManyToOne
-    private User user;
+    private Item item;
 
     @ManyToOne
-    private Category category;
+    private User bidder;
 
     @ManyToOne
     private Auction auction;
-
 }
