@@ -20,9 +20,9 @@ public class Bid {
     private Integer id;
     private Double amount;
 
-    private LocalDateTime dateTimeBid = LocalDateTime.now();
+    private LocalDateTime bidDate = LocalDateTime.now();
 
-    @ManyToOne
+    @OneToOne
     private Item item;
 
     @ManyToOne

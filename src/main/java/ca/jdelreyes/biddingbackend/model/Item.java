@@ -23,12 +23,14 @@ public class Item {
     private String description;
 
     private Double startBidAmount;
+    private Double finalBidAmount;
+
     private Double bidIncrement = 0.1;
 
     @Builder.Default
     private LocalDateTime dateTimeCreated = LocalDateTime.now();
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     private User seller;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)

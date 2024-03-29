@@ -21,12 +21,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item getItem(Integer id) {
-        return itemRepository.findItemById(id).orElseThrow();
+    public ItemResponse getItem(Integer id) {
+        return this.mapItemToItemResponse(itemRepository.findItemById(id).orElseThrow());
     }
 
     @Override
-    public Item createItem(CreateItemRequest createItemRequest) {
+    public ItemResponse createItem(CreateItemRequest createItemRequest) {
         Item item = Item.builder()
                 .name(createItemRequest.getName())
                 .description(createItemRequest.getDescription())
@@ -36,11 +36,11 @@ public class ItemServiceImpl implements ItemService {
 
         itemRepository.save(item);
 
-        return item;
+        return this.mapItemToItemResponse(item);
     }
 
     @Override
-    public Item updateItem(Integer id, UpdateItemRequest updateItemRequest) {
+    public ItemResponse updateItem(Integer id, UpdateItemRequest updateItemRequest) {
         return null;
     }
 

@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .dateTimeCreated(user.getDateTimeCreated())
+                .role(user.getRole())
                 .build();
     }
 }

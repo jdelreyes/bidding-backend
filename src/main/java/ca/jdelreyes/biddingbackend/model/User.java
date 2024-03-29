@@ -24,17 +24,28 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String firstName;
     private String lastName;
+
     @Column(unique = true)
     private String email;
     private String password;
 
+    @Builder.Default
     private LocalDateTime dateTimeCreated = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany
+    private List<Bid> bids;
+
+    @OneToMany
+    private List<Item> items;
+
+    @OneToMany
+    private List<Auction> auctions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -21,7 +22,12 @@ public class Auction {
     private LocalDateTime dateTimeStarted;
     private LocalDateTime dateTimeEnded;
 
+    @OneToMany
+    private List<Bid> bids;
+
     @OneToOne
     private User winner;
 
+    @OneToMany
+    private List<User> participants;
 }

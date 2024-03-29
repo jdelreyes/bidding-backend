@@ -1,18 +1,20 @@
 spring:
   application:
     name: bidding-backend
+  datasource:
+    username: root
+    password: password
+    url: jdbc:mysql://mysql-bidding-backend:3306/bidding-backend
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    hibernate:
-      ddl-auto: update
-    database: postgresql
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgresql-bidding-backend:5432/bidding-backend
-    username: admin
-    password: password
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
 
 server:
   port: 8081
+
+jwt:
+  secret: smUdq5b8A31eGFpT/6zSTvEWNGZ4rh7pbY/25YS2hkv3nGaylkSRdMkqgZHjskd8
