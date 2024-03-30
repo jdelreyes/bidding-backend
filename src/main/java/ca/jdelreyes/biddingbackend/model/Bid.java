@@ -20,7 +20,7 @@ public class Bid {
     private Integer id;
     private Double amount;
 
-    private LocalDateTime bidDate = LocalDateTime.now();
+    private LocalDateTime bidAt = LocalDateTime.now();
 
     @OneToOne
     private Item item;

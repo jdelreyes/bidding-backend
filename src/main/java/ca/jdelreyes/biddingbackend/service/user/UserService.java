@@ -1,5 +1,7 @@
 package ca.jdelreyes.biddingbackend.service.user;
 
+import ca.jdelreyes.biddingbackend.dto.user.ChangePasswordRequest;
+import ca.jdelreyes.biddingbackend.dto.user.UpdateUserRequest;
 import ca.jdelreyes.biddingbackend.dto.user.UserResponse;
 
 import java.util.List;
@@ -7,7 +9,11 @@ import java.util.List;
 public interface UserService {
     List<UserResponse> getUsers();
 
-    UserResponse updateUser();
+    UserResponse getUser(Integer id);
 
-    void deleteUser();
+    UserResponse changePassword(String userName, ChangePasswordRequest changePasswordRequest);
+
+    UserResponse updateUser(Integer id, UpdateUserRequest updateUserRequest);
+
+    void deleteUser(Integer id);
 }

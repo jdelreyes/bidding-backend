@@ -1,10 +1,14 @@
 package ca.jdelreyes.biddingbackend.service.user;
 
+import ca.jdelreyes.biddingbackend.dto.user.ChangePasswordRequest;
+import ca.jdelreyes.biddingbackend.dto.user.UpdateUserRequest;
 import ca.jdelreyes.biddingbackend.dto.user.UserResponse;
 import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserResponse> getUsers() {
@@ -19,12 +24,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateUser() {
-        return null;
+    public UserResponse getUser(Integer id) {
+        return mapUserToUserResponse(userRepository.findById(id).orElseThrow());
     }
 
     @Override
-    public void deleteUser() {
+    public UserResponse changePassword(String userName, ChangePasswordRequest changePasswordRequest) {
+        User user = userRepository.findUserByEmail(userName).orElseThrow();
+
+        if (!passwordMatches(changePasswordRequest.getOldPassword(), user.getPassword()))
+            return null;
+
+        return mapUserToUserResponse(user);
+    }
+
+
+    @Override
+    public UserResponse updateUser(Integer id, UpdateUserRequest updateUserRequest) {
+        User user = userRepository.findById(id).orElseThrow();
+
+        user.setFirstName(updateUserRequest.getFirstName());
+        user.setLastName(user.getLastName());
+        user.setEmail(user.getEmail());
+
+        return mapUserToUserResponse(user);
+    }
+
+
+    @Override
+    @Transactional
+    public void deleteUser(Integer id) {
+        userRepository.deleteUserById(id);
+    }
+
+    private boolean passwordMatches(String oldPassword, String hash) {
+        return passwordEncoder.matches(oldPassword, hash);
     }
 
     private UserResponse mapUserToUserResponse(User user) {

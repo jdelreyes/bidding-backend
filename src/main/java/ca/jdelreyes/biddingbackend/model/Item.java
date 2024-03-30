@@ -28,7 +28,7 @@ public class Item {
     private Double bidIncrement = 0.1;
 
     @Builder.Default
-    private LocalDateTime dateTimeCreated = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(cascade = CascadeType.ALL)
     private User seller;
