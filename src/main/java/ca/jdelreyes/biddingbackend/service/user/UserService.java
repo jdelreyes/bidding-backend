@@ -11,7 +11,9 @@ public interface UserService {
 
     UserResponse getUser(Integer id);
 
-    UserResponse changePassword(String userName, ChangePasswordRequest changePasswordRequest);
+    UserResponse changeOwnPassword(String userName, ChangePasswordRequest changePasswordRequest);
+
+    UserResponse updateOwnProfile(String userName, UpdateUserRequest updateUserRequest);
 
     UserResponse updateUser(Integer id, UpdateUserRequest updateUserRequest);
 

@@ -41,7 +41,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemResponse updateItem(Integer id, UpdateItemRequest updateItemRequest) {
-        return null;
+        Item item = itemRepository.findItemById(id).orElseThrow();
+
+        item.setName(updateItemRequest.getName());
+        item.setDescription(updateItemRequest.getDescription());
+        item.setStartBidAmount(updateItemRequest.getStartBidAmount());
+        item.setBidIncrement(updateItemRequest.getBidIncrement());
+
+        return mapItemToItemResponse(item);
     }
 
     @Override

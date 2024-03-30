@@ -29,11 +29,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse changePassword(String userName, ChangePasswordRequest changePasswordRequest) {
+    public UserResponse changeOwnPassword(String userName, ChangePasswordRequest changePasswordRequest) {
         User user = userRepository.findUserByEmail(userName).orElseThrow();
 
         if (!passwordMatches(changePasswordRequest.getOldPassword(), user.getPassword()))
             return null;
+
+        return mapUserToUserResponse(user);
+    }
+
+    @Override
+    public UserResponse updateOwnProfile(String userName, UpdateUserRequest updateUserRequest) {
+        User user = userRepository.findUserByEmail(userName).orElseThrow();
+
+        user.setFirstName(updateUserRequest.getFirstName());
+        user.setLastName(updateUserRequest.getLastName());
+        user.setEmail(updateUserRequest.getEmail());
+        user.setPassword(updateUserRequest.getPassword());
 
         return mapUserToUserResponse(user);
     }
