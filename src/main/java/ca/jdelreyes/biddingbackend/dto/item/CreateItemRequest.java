@@ -1,6 +1,7 @@
 package ca.jdelreyes.biddingbackend.dto.item;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,13 +16,12 @@ public class CreateItemRequest {
     private String name;
     @NotEmpty
     private String description;
-    @NotEmpty
+    @NotNull
     private Double startBidAmount;
-    @NotEmpty
+    @NotNull
+    private Double finalBidAmount;
+    @NotNull
     private Double bidIncrement;
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    private User user;
-//
-//    @ManyToOne
-//    private Category category;
+    @NotNull
+    private Integer categoryId;
 }

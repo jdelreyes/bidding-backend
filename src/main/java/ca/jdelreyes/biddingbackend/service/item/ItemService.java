@@ -11,9 +11,11 @@ public interface ItemService {
 
     ItemResponse getItem(Integer id);
 
-    ItemResponse createItem(CreateItemRequest createItemRequest);
+    ItemResponse createItem(String userName, CreateItemRequest createItemRequest);
 
     ItemResponse updateItem(Integer id, UpdateItemRequest updateItemRequest);
+
+    ItemResponse updateOwnItem(String userName, Integer id, UpdateItemRequest updateItemRequest) throws Exception;
 
     void deleteItem(Integer id);
 }

@@ -1,5 +1,8 @@
 package ca.jdelreyes.biddingbackend.dto.item;
 
+import ca.jdelreyes.biddingbackend.dto.user.UserResponse;
+import ca.jdelreyes.biddingbackend.model.Category;
+import ca.jdelreyes.biddingbackend.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +19,9 @@ public class ItemResponse {
     private String name;
     private String description;
     private Double startBidAmount;
+    private Double finalBidAmount;
     private Double bidIncrement;
-    private LocalDateTime dateTimeCreated;
-
+    private LocalDateTime createAt;
+    private UserResponse seller;
+    private Category category;
 }

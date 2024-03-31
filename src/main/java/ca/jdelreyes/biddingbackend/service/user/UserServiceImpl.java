@@ -6,6 +6,7 @@ import ca.jdelreyes.biddingbackend.dto.user.UserResponse;
 import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse updateOwnProfile(String userName, UpdateUserRequest updateUserRequest) {
-        User user = userRepository.findUserByEmail(userName).orElseThrow();
+        User user = userRepository.findUserByEmail(userName).orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
         user.setFirstName(updateUserRequest.getFirstName());
         user.setLastName(updateUserRequest.getLastName());

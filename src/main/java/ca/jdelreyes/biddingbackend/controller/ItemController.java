@@ -10,13 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/items")
 @EnableMethodSecurity
 public class ItemController {
     private final ItemServiceImpl itemService;
@@ -26,25 +28,31 @@ public class ItemController {
         return ResponseEntity.ok(itemService.getItems());
     }
 
-    @PreAuthorize("hasAuthority('USER')")
     @PostMapping
-    public ResponseEntity<ItemResponse> createItem(@Valid @RequestBody CreateItemRequest createItemRequest) {
-        ItemResponse itemResponse = itemService.createItem(createItemRequest);
-
-        return new ResponseEntity<>(itemResponse, HttpStatus.CREATED);
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<?> createItem(@AuthenticationPrincipal UserDetails userDetails,
+                                        @Valid @RequestBody CreateItemRequest createItemRequest) {
+        return new ResponseEntity<>(itemService.createItem(userDetails.getUsername(), createItemRequest),
+                HttpStatus.CREATED);
     }
 
-    @PutMapping("{itemId}")
+    @PutMapping("/{itemId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ItemResponse> updateItem(@PathVariable("itemId") Integer id, @RequestBody UpdateItemRequest updateItemRequest) {
-        ItemResponse itemResponse = itemService.updateItem(id, updateItemRequest);
-
-        return ResponseEntity.ok(itemResponse);
+        return ResponseEntity.ok(itemService.updateItem(id, updateItemRequest));
     }
 
-    @DeleteMapping("{itemId}")
-    public ResponseEntity<?> deleteItem(@PathVariable("itemId") Integer id) {
-        itemService.deleteItem(id);
+    @PutMapping("/update-item/{itemId}")
+    public ResponseEntity<ItemResponse> updateOwnItem(@AuthenticationPrincipal UserDetails userDetails,
+                                                      @PathVariable("itemId") Integer id,
+                                                      UpdateItemRequest updateItemRequest) throws Exception {
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(itemService.updateOwnItem(userDetails.getUsername(), id, updateItemRequest));
+    }
+
+    @DeleteMapping("/{itemId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteItem(@PathVariable("itemId") Integer id) {
+        itemService.deleteItem(id);
     }
 }

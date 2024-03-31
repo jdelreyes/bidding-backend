@@ -27,8 +27,8 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsers());
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserResponse> updateUser(@PathVariable("userId") Integer id, @RequestBody UpdateUserRequest updateUserRequest) {
         return new ResponseEntity<>(userService.updateUser(id, updateUserRequest), HttpStatus.OK);
     }

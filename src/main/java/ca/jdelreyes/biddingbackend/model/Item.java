@@ -27,13 +27,13 @@ public class Item {
 
     private Double bidIncrement = 0.1;
 
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    private Category category;
+
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private User seller;
-
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    private Category category;
+    private User seller;
 
 }

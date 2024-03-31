@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+
+  bidding-backend:
+    container_name: bidding-backend
+    image: bidding-backend:1.0
+    ports:
+      - "8081:8081"
+    build:
+      dockerfile: ./Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mysql-bidding-backend
+
   mysql-bidding-backend:
     container_name: mysql-bidding-backend
     image: mysql:8.3.0
@@ -14,6 +27,7 @@ services:
       - bidding-backend
 
   phpmyadmin:
+    container_name: phpmyadmin
     image: phpmyadmin:5.2.1
     restart: unless-stopped
     ports:

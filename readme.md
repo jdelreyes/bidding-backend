@@ -2,17 +2,24 @@
 
 ## Overview
 
-## Installation
+An auction backend where users can sell their own items, view and bid on other user's items. These items are
+created with starting and final bid amount sold in an auction in a limited time.
 
-## Running
-```shell
-docker-compose -f docker-compose.yml up -d
-```
+## Installation and Running
 
-```shell
-docker-compose -f docker-compose.local.yml up -d
-```
+### Locally
 
-```shell
-docker-compose down -v
-```
+1. Pull and instantiate a MySQL and a PHPAdmin image.
+    ```shell
+    docker-compose -f docker-compose.local.yml up -d
+    ```
+
+2. Start the application via your favorite IDE.
+
+### Docker
+
+1. Pull and instantiate a MySQL and a PHPAdmin image along with the containerized application.
+   ```shell
+   docker-compose up -d
+   ```
+
