@@ -20,6 +20,7 @@ public class Bid {
     private Integer id;
     private Double amount;
 
+    @Builder.Default
     private LocalDateTime bidAt = LocalDateTime.now();
 
     @OneToOne
@@ -27,7 +28,4 @@ public class Bid {
 
     @ManyToOne
     private User bidder;
-
-    @ManyToOne
-    private Auction auction;
 }

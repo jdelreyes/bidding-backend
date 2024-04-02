@@ -42,9 +42,6 @@ public class ItemServiceImpl implements ItemService {
         Item item = Item.builder()
                 .name(createItemRequest.getName())
                 .description(createItemRequest.getDescription())
-                .startBidAmount(createItemRequest.getStartBidAmount())
-                .finalBidAmount(createItemRequest.getFinalBidAmount())
-                .bidIncrement(createItemRequest.getBidIncrement())
                 .seller(user)
                 .category(category)
                 .build();
@@ -60,8 +57,6 @@ public class ItemServiceImpl implements ItemService {
 
         item.setName(updateItemRequest.getName());
         item.setDescription(updateItemRequest.getDescription());
-        item.setStartBidAmount(updateItemRequest.getStartBidAmount());
-        item.setBidIncrement(updateItemRequest.getBidIncrement());
 
         itemRepository.save(item);
 
@@ -78,8 +73,6 @@ public class ItemServiceImpl implements ItemService {
 
         item.setName(updateItemRequest.getName());
         item.setDescription(updateItemRequest.getDescription());
-        item.setStartBidAmount(updateItemRequest.getStartBidAmount());
-        item.setBidIncrement(updateItemRequest.getBidIncrement());
 
         itemRepository.save(item);
 
@@ -97,10 +90,7 @@ public class ItemServiceImpl implements ItemService {
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
-                .startBidAmount(item.getStartBidAmount())
-                .finalBidAmount(item.getFinalBidAmount())
-                .bidIncrement(item.getBidIncrement())
-                .createAt(item.getCreatedAt())
+                .createdAt(item.getCreatedAt())
                 .seller(mapUserToUserResponse(item.getSeller()))
                 .category(item.getCategory())
                 .build();

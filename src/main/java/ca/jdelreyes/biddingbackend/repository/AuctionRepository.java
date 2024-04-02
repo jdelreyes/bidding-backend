@@ -1,6 +1,7 @@
 package ca.jdelreyes.biddingbackend.repository;
 
-import ca.jdelreyes.biddingbackend.model.User;
+import ca.jdelreyes.biddingbackend.model.Auction;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
@@ -8,12 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-    Optional<User> findUserByEmail(String email);
-
-    void deleteUserById(@NonNull Integer id);
-
+public interface AuctionRepository extends JpaRepository<Auction, Integer> {
     boolean existsById(@NonNull Integer id);
 
-    boolean existsByEmail(@NonNull String email);
+    Optional<Auction> findAuctionById(Integer id);
 }

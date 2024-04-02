@@ -19,8 +19,17 @@ public class Auction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private LocalDateTime dateTimeStarted;
-    private LocalDateTime dateTimeEnded;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
+
+    private Double startBidAmount;
+    private Double currentBidAmount = startBidAmount;
+    private Double finalBidAmount;
+
+    private Double bidIncrement = 0.1;
+
+    @OneToOne
+    private Item item;
 
     @OneToMany
     private List<Bid> bids;

@@ -12,8 +12,5 @@ import lombok.NoArgsConstructor;
 public class UpdateItemRequest {
     private String name;
     private String description;
-    private Double startBidAmount;
-    private Double finalBidAmount;
-    private Double bidIncrement;
     private Integer categoryId;
 }
