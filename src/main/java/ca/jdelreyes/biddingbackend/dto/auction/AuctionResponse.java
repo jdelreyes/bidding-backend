@@ -2,6 +2,7 @@ package ca.jdelreyes.biddingbackend.dto.auction;
 
 import ca.jdelreyes.biddingbackend.model.Bid;
 import ca.jdelreyes.biddingbackend.model.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,9 +17,18 @@ import java.util.List;
 @AllArgsConstructor
 public class AuctionResponse {
     private Integer id;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endAt;
+
+    private Double startBidAmount;
+    private Double currentBidAmount;
+    private Double finalBidAmount;
+
+    private Double bidIncrement;
+
     private List<Bid> bids;
     private User winner;
-    private List<User> participants;
 }

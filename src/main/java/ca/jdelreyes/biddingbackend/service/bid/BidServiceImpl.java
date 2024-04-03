@@ -43,7 +43,7 @@ public class BidServiceImpl implements BidService {
             throw new Exception();
 
         User user = userRepository.findUserByEmail(userName).orElseThrow();
-        Item item = itemRepository.findItemById(bidRequest.getItemId()).orElseThrow();
+        Item item = itemRepository.findItemById(auction.getItem().getId()).orElseThrow();
 
         Bid bid = Bid.builder()
                 .amount(auction.getCurrentBidAmount() + auction.getBidIncrement())

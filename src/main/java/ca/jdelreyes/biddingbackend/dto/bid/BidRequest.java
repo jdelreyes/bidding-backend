@@ -12,7 +12,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BidRequest {
     @NotNull
-    private Integer itemId;
-    @NotNull
     private Integer auctionId;
 }

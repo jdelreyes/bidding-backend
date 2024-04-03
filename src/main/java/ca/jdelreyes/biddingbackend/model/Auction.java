@@ -36,7 +36,4 @@ public class Auction {
 
     @OneToOne
     private User winner;
-
-    @OneToMany
-    private List<User> participants;
 }

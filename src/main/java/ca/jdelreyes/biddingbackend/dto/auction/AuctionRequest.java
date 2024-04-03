@@ -1,5 +1,7 @@
 package ca.jdelreyes.biddingbackend.dto.auction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +14,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class AuctionRequest {
-    private Integer itemId;
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startAt;
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endAt;
+
+    @NotNull
+    private Double startBidAmount;
+    @NotNull
+    private Double finalBidAmount;
+
+    @NotNull
+    private Double bidIncrement;
+
+    @NotNull
+    private Integer itemId;
 }
