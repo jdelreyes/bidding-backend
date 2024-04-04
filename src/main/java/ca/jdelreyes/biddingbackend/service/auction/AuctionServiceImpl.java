@@ -30,7 +30,7 @@ public class AuctionServiceImpl implements AuctionService {
         Item item = itemRepository.findItemById(auctionRequest.getItemId()).orElseThrow(ItemNotFoundException::new);
 
         if (!Objects.equals(item.getSeller().getEmail(), userName))
-            throw new Exception();
+            throw new Exception("item is not owned by current user");
 
         Auction auction = Auction.builder()
                 .item(item)
@@ -49,7 +49,6 @@ public class AuctionServiceImpl implements AuctionService {
                 .id(auction.getId())
                 .startAt(auction.getStartAt())
                 .endAt(auction.getEndAt())
-                .bids(auction.getBids())
                 .winner(auction.getWinner())
                 .build();
     }

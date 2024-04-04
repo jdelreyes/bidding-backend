@@ -23,8 +23,8 @@ public class Bid {
     @Builder.Default
     private LocalDateTime bidAt = LocalDateTime.now();
 
-    @OneToOne
-    private Item item;
+    @ManyToOne
+    private Auction auction;
 
     @ManyToOne
     private User bidder;

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,9 +25,6 @@ public class Auction {
 
     @OneToOne
     private Item item;
-
-    @OneToMany
-    private List<Bid> bids;
 
     @OneToOne
     private User winner;

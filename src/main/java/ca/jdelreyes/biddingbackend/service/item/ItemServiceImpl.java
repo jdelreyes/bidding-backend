@@ -106,6 +106,10 @@ public class ItemServiceImpl implements ItemService {
                 .name(item.getName())
                 .description(item.getDescription())
                 .createdAt(item.getCreatedAt())
+                .startBidAmount(item.getStartBidAmount())
+                .finalBidAmount(item.getFinalBidAmount())
+                .currentBidAmount(item.getCurrentBidAmount())
+                .bidIncrement(item.getBidIncrement())
                 .seller(mapUserToUserResponse(item.getSeller()))
                 .category(item.getCategory())
                 .build();
