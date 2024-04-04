@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 public class DataLoader implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     @Override

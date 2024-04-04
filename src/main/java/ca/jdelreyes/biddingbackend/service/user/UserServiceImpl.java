@@ -3,10 +3,11 @@ package ca.jdelreyes.biddingbackend.service.user;
 import ca.jdelreyes.biddingbackend.dto.user.ChangePasswordRequest;
 import ca.jdelreyes.biddingbackend.dto.user.UpdateUserRequest;
 import ca.jdelreyes.biddingbackend.dto.user.UserResponse;
+import ca.jdelreyes.biddingbackend.exception.PasswordNotMatch;
+import ca.jdelreyes.biddingbackend.exception.UserNotFoundException;
 import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,28 +26,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getUser(Integer id) {
-        return mapUserToUserResponse(userRepository.findById(id).orElseThrow());
+    public UserResponse getUser(Integer id) throws UserNotFoundException {
+        return mapUserToUserResponse(userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new));
     }
 
     @Override
-    public UserResponse changeOwnPassword(String userName, ChangePasswordRequest changePasswordRequest) {
-        User user = userRepository.findUserByEmail(userName).orElseThrow();
+    public UserResponse changeOwnPassword(String userName, ChangePasswordRequest changePasswordRequest) throws Exception {
+        User user = userRepository.findUserByEmail(userName).orElseThrow(UserNotFoundException::new);
 
-        if (!passwordMatches(changePasswordRequest.getOldPassword(), user.getPassword()))
-            return null;
+        if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword()))
+            throw new PasswordNotMatch();
+
+        user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+        userRepository.save(user);
 
         return mapUserToUserResponse(user);
     }
 
     @Override
-    public UserResponse updateOwnProfile(String userName, UpdateUserRequest updateUserRequest) {
-        User user = userRepository.findUserByEmail(userName).orElseThrow(() -> new UsernameNotFoundException("user not found"));
+    public UserResponse updateOwnProfile(String userName, UpdateUserRequest updateUserRequest)
+            throws UserNotFoundException {
+        User user = userRepository.findUserByEmail(userName).orElseThrow(UserNotFoundException::new);
 
         user.setFirstName(updateUserRequest.getFirstName());
         user.setLastName(updateUserRequest.getLastName());
         user.setEmail(updateUserRequest.getEmail());
-        user.setPassword(updateUserRequest.getPassword());
+
+        userRepository.save(user);
 
         return mapUserToUserResponse(user);
     }
@@ -68,10 +75,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(Integer id) {
         userRepository.deleteUserById(id);
-    }
-
-    private boolean passwordMatches(String oldPassword, String hash) {
-        return passwordEncoder.matches(oldPassword, hash);
     }
 
     private UserResponse mapUserToUserResponse(User user) {

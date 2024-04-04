@@ -16,6 +16,15 @@ public class CreateItemRequest {
     private String name;
     @NotEmpty
     private String description;
+
+    @NotNull
+    private Double startBidAmount;
+    @NotNull
+    private Double finalBidAmount;
+
+    @NotNull
+    private Double bidIncrement;
+
     @NotNull
     private Integer categoryId;
 }

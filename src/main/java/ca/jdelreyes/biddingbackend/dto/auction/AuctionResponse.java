@@ -23,12 +23,6 @@ public class AuctionResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endAt;
 
-    private Double startBidAmount;
-    private Double currentBidAmount;
-    private Double finalBidAmount;
-
-    private Double bidIncrement;
-
     private List<Bid> bids;
     private User winner;
 }

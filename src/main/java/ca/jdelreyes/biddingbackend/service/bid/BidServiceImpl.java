@@ -38,15 +38,11 @@ public class BidServiceImpl implements BidService {
     public BidResponse bid(String userName, BidRequest bidRequest) throws Exception {
         Auction auction = auctionRepository.findAuctionById(bidRequest.getAuctionId()).orElseThrow();
 
-//        if the auction is done
-        if (auction.getStartAt().isBefore(LocalDateTime.now()))
-            throw new Exception();
 
-        User user = userRepository.findUserByEmail(userName).orElseThrow();
-        Item item = itemRepository.findItemById(auction.getItem().getId()).orElseThrow();
+        User user = userRepository.findUserByEmail(userName).orElseThrow(() -> new Exception("user not found"));
+        Item item = itemRepository.findItemById(auction.getItem().getId()).orElseThrow(() -> new Exception("item not found"));
 
         Bid bid = Bid.builder()
-                .amount(auction.getCurrentBidAmount() + auction.getBidIncrement())
                 .bidder(user)
                 .item(item)
                 .build();

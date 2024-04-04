@@ -2,6 +2,7 @@ package ca.jdelreyes.biddingbackend.service.auction;
 
 import ca.jdelreyes.biddingbackend.dto.auction.AuctionRequest;
 import ca.jdelreyes.biddingbackend.dto.auction.AuctionResponse;
+import ca.jdelreyes.biddingbackend.exception.ItemNotFoundException;
 import ca.jdelreyes.biddingbackend.model.Auction;
 import ca.jdelreyes.biddingbackend.model.Item;
 import ca.jdelreyes.biddingbackend.repository.AuctionRepository;
@@ -26,17 +27,13 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public AuctionResponse auctionItem(String userName, AuctionRequest auctionRequest) throws Exception {
-        Item item = itemRepository.findItemById(auctionRequest.getItemId()).orElseThrow();
+        Item item = itemRepository.findItemById(auctionRequest.getItemId()).orElseThrow(ItemNotFoundException::new);
 
         if (!Objects.equals(item.getSeller().getEmail(), userName))
             throw new Exception();
 
         Auction auction = Auction.builder()
                 .item(item)
-                .startBidAmount(auctionRequest.getStartBidAmount())
-                .currentBidAmount(auctionRequest.getStartBidAmount())
-                .finalBidAmount(auctionRequest.getFinalBidAmount())
-                .bidIncrement(auctionRequest.getBidIncrement())
                 .startAt(auctionRequest.getStartAt())
                 .endAt(auctionRequest.getEndAt())
                 .build();
@@ -52,10 +49,6 @@ public class AuctionServiceImpl implements AuctionService {
                 .id(auction.getId())
                 .startAt(auction.getStartAt())
                 .endAt(auction.getEndAt())
-                .startBidAmount(auction.getStartBidAmount())
-                .currentBidAmount(auction.getCurrentBidAmount())
-                .finalBidAmount(auction.getFinalBidAmount())
-                .bidIncrement(auction.getBidIncrement())
                 .bids(auction.getBids())
                 .winner(auction.getWinner())
                 .build();

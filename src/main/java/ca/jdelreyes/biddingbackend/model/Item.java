@@ -22,6 +22,12 @@ public class Item {
     private String name;
     private String description;
 
+    private Double startBidAmount;
+    private Double currentBidAmount = startBidAmount;
+    private Double finalBidAmount;
+
+    private Double bidIncrement = 0.1;
+
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Category category;
 

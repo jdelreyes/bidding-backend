@@ -18,6 +18,13 @@ public class ItemResponse {
     private String name;
     private String description;
     private LocalDateTime createdAt;
+
+    private Double startBidAmount;
+    private Double currentBidAmount;
+    private Double finalBidAmount;
+
+    private Double bidIncrement;
+
     private UserResponse seller;
     private Category category;
 }
