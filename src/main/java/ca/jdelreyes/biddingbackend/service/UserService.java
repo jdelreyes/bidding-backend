@@ -1,4 +1,4 @@
-package ca.jdelreyes.biddingbackend.service.user;
+package ca.jdelreyes.biddingbackend.service;
 
 import ca.jdelreyes.biddingbackend.dto.user.ChangePasswordRequest;
 import ca.jdelreyes.biddingbackend.dto.user.UpdateUserRequest;
@@ -12,9 +12,9 @@ public interface UserService {
 
     UserResponse getUser(Integer id) throws UserNotFoundException;
 
-    UserResponse changeOwnPassword(String userName, ChangePasswordRequest changePasswordRequest) throws Exception;
+    UserResponse changeOwnPassword(Integer id, ChangePasswordRequest changePasswordRequest) throws Exception;
 
-    UserResponse updateOwnProfile(String userName, UpdateUserRequest updateUserRequest) throws UserNotFoundException;
+    UserResponse updateOwnProfile(Integer id, UpdateUserRequest updateUserRequest) throws UserNotFoundException;
 
     UserResponse updateUser(Integer id, UpdateUserRequest updateUserRequest);
 

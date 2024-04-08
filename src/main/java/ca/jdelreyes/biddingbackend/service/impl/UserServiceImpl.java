@@ -1,4 +1,4 @@
-package ca.jdelreyes.biddingbackend.service.user;
+package ca.jdelreyes.biddingbackend.service.impl;
 
 import ca.jdelreyes.biddingbackend.dto.user.ChangePasswordRequest;
 import ca.jdelreyes.biddingbackend.dto.user.UpdateUserRequest;
@@ -7,6 +7,7 @@ import ca.jdelreyes.biddingbackend.exception.PasswordNotMatch;
 import ca.jdelreyes.biddingbackend.exception.UserNotFoundException;
 import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.repository.UserRepository;
+import ca.jdelreyes.biddingbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse changeOwnPassword(String userName, ChangePasswordRequest changePasswordRequest) throws Exception {
-        User user = userRepository.findUserByEmail(userName).orElseThrow(UserNotFoundException::new);
+    public UserResponse changeOwnPassword(Integer id, ChangePasswordRequest changePasswordRequest) throws Exception {
+        User user = userRepository.findUserById(id).orElseThrow(UserNotFoundException::new);
 
         if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword()))
             throw new PasswordNotMatch();
@@ -45,9 +46,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateOwnProfile(String userName, UpdateUserRequest updateUserRequest)
+    public UserResponse updateOwnProfile(Integer id, UpdateUserRequest updateUserRequest)
             throws UserNotFoundException {
-        User user = userRepository.findUserByEmail(userName).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findUserById(id).orElseThrow(UserNotFoundException::new);
 
         user.setFirstName(updateUserRequest.getFirstName());
         user.setLastName(updateUserRequest.getLastName());

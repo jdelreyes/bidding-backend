@@ -6,7 +6,8 @@ import ca.jdelreyes.biddingbackend.dto.item.UpdateItemRequest;
 import ca.jdelreyes.biddingbackend.exception.CategoryNotFoundException;
 import ca.jdelreyes.biddingbackend.exception.ItemNotFoundException;
 import ca.jdelreyes.biddingbackend.exception.UserNotFoundException;
-import ca.jdelreyes.biddingbackend.service.item.ItemServiceImpl;
+import ca.jdelreyes.biddingbackend.model.User;
+import ca.jdelreyes.biddingbackend.service.impl.ItemServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,10 +38,10 @@ public class ItemController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<?> createItem(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<?> createItem(@AuthenticationPrincipal User user,
                                         @Valid @RequestBody CreateItemRequest createItemRequest)
             throws UserNotFoundException, CategoryNotFoundException {
-        return new ResponseEntity<>(itemService.createItem(userDetails.getUsername(), createItemRequest),
+        return new ResponseEntity<>(itemService.createItem(user.getId(), createItemRequest),
                 HttpStatus.CREATED);
     }
 
@@ -52,16 +52,24 @@ public class ItemController {
     }
 
     @PutMapping("/update-item/{itemId}")
-    public ResponseEntity<ItemResponse> updateOwnItem(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<ItemResponse> updateOwnItem(@AuthenticationPrincipal User user,
                                                       @PathVariable("itemId") Integer id,
                                                       UpdateItemRequest updateItemRequest) throws Exception {
 
-        return ResponseEntity.ok(itemService.updateOwnItem(userDetails.getUsername(), id, updateItemRequest));
+        return ResponseEntity.ok(itemService.updateOwnItem(user.getId(), id, updateItemRequest));
     }
 
     @DeleteMapping("/{itemId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteItem(@PathVariable("itemId") Integer id) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<?> deleteItem(@PathVariable("itemId") Integer id) throws Exception {
         itemService.deleteItem(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/delete-item/{itemId}")
+    public ResponseEntity<?> deleteOwnItem(@AuthenticationPrincipal User user,
+                                           @PathVariable("itemId") Integer id) throws Exception {
+        itemService.deleteOwnItem(user.getId(), id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

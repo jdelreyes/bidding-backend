@@ -1,4 +1,4 @@
-package ca.jdelreyes.biddingbackend.service.auth;
+package ca.jdelreyes.biddingbackend.service;
 
 import ca.jdelreyes.biddingbackend.dto.auth.AuthRequest;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthResponse;

@@ -1,4 +1,4 @@
-package ca.jdelreyes.biddingbackend.service.item;
+package ca.jdelreyes.biddingbackend.service.impl;
 
 import ca.jdelreyes.biddingbackend.dto.item.CreateItemRequest;
 import ca.jdelreyes.biddingbackend.dto.item.ItemResponse;
@@ -13,6 +13,7 @@ import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.repository.CategoryRepository;
 import ca.jdelreyes.biddingbackend.repository.ItemRepository;
 import ca.jdelreyes.biddingbackend.repository.UserRepository;
+import ca.jdelreyes.biddingbackend.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +40,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemResponse createItem(String userName, CreateItemRequest createItemRequest) throws UserNotFoundException, CategoryNotFoundException {
-        User user = userRepository.findUserByEmail(userName).orElseThrow(UserNotFoundException::new);
+    public ItemResponse createItem(Integer userId, CreateItemRequest createItemRequest) throws UserNotFoundException, CategoryNotFoundException {
+        User user = userRepository.findUserById(userId).orElseThrow(UserNotFoundException::new);
         Category category = categoryRepository.findCategoryById(createItemRequest.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
 
@@ -73,9 +74,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemResponse updateOwnItem(String userName, Integer id, UpdateItemRequest updateItemRequest) throws Exception {
+    public ItemResponse updateOwnItem(Integer userId, Integer id, UpdateItemRequest updateItemRequest) throws Exception {
         Item item = itemRepository.findItemById(id).orElseThrow(ItemNotFoundException::new);
-        User user = userRepository.findUserByEmail(userName).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findUserById(userId).orElseThrow(UserNotFoundException::new);
         Category category = categoryRepository.findCategoryById(updateItemRequest.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
 
@@ -96,11 +97,34 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     @Override
-    public void deleteItem(Integer id) {
+    public ItemResponse deleteItem(Integer id) throws Exception {
+        Item item = itemRepository.findItemById(id).orElseThrow(ItemNotFoundException::new);
+
         itemRepository.deleteById(id);
+
+        if (itemRepository.existsById(id))
+            throw new Exception("Item delete failed");
+
+        return mapItemToItemResponse(item);
     }
 
-    private ItemResponse mapItemToItemResponse(Item item) {
+    @Override
+    public ItemResponse deleteOwnItem(Integer userId, Integer id) throws Exception {
+        Item item = itemRepository.findItemById(id).orElseThrow(ItemNotFoundException::new);
+        User user = userRepository.findUserById(userId).orElseThrow(UserNotFoundException::new);
+
+        if (!Objects.equals(user.getId(), item.getSeller().getId()))
+            throw new Exception("Item is not owned by current user");
+
+        itemRepository.deleteById(id);
+
+        if (itemRepository.existsById(id))
+            throw new Exception("Item delete failed");
+
+        return mapItemToItemResponse(item);
+    }
+
+    public ItemResponse mapItemToItemResponse(Item item) {
         return ItemResponse.builder()
                 .id(item.getId())
                 .name(item.getName())
@@ -124,6 +148,5 @@ public class ItemServiceImpl implements ItemService {
                 .dateTimeCreated(user.getDateTimeCreated())
                 .role(user.getRole())
                 .build();
-
     }
 }

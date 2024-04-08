@@ -38,15 +38,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany
-    private List<Bid> bids;
-
-    @OneToMany
-    private List<Item> items;
-
-    @OneToMany
-    private List<Auction> auctions;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

@@ -1,5 +1,6 @@
-package ca.jdelreyes.biddingbackend.service.jwt;
+package ca.jdelreyes.biddingbackend.service.impl;
 
+import ca.jdelreyes.biddingbackend.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

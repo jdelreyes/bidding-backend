@@ -3,7 +3,7 @@ package ca.jdelreyes.biddingbackend.controller;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthRequest;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthResponse;
 import ca.jdelreyes.biddingbackend.dto.auth.RegisterRequest;
-import ca.jdelreyes.biddingbackend.service.auth.AuthServiceImpl;
+import ca.jdelreyes.biddingbackend.service.impl.AuthServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

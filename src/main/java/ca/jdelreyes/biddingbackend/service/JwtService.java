@@ -1,4 +1,4 @@
-package ca.jdelreyes.biddingbackend.service.jwt;
+package ca.jdelreyes.biddingbackend.service;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;

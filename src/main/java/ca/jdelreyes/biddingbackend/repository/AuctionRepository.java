@@ -12,4 +12,5 @@ public interface AuctionRepository extends JpaRepository<Auction, Integer> {
     boolean existsById(@NonNull Integer id);
 
     Optional<Auction> findAuctionById(Integer id);
+
 }

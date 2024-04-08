@@ -1,4 +1,4 @@
-package ca.jdelreyes.biddingbackend.service.item;
+package ca.jdelreyes.biddingbackend.service;
 
 import ca.jdelreyes.biddingbackend.dto.item.CreateItemRequest;
 import ca.jdelreyes.biddingbackend.dto.item.ItemResponse;
@@ -14,11 +14,13 @@ public interface ItemService {
 
     ItemResponse getItem(Integer id) throws ItemNotFoundException;
 
-    ItemResponse createItem(String userName, CreateItemRequest createItemRequest) throws UserNotFoundException, CategoryNotFoundException;
+    ItemResponse createItem(Integer userId, CreateItemRequest createItemRequest) throws UserNotFoundException, CategoryNotFoundException;
 
     ItemResponse updateItem(Integer id, UpdateItemRequest updateItemRequest) throws ItemNotFoundException;
 
-    ItemResponse updateOwnItem(String userName, Integer id, UpdateItemRequest updateItemRequest) throws Exception;
+    ItemResponse updateOwnItem(Integer userId, Integer id, UpdateItemRequest updateItemRequest) throws Exception;
 
-    void deleteItem(Integer id);
+    ItemResponse deleteItem(Integer id) throws Exception;
+
+    ItemResponse deleteOwnItem(Integer userId, Integer id) throws Exception;
 }

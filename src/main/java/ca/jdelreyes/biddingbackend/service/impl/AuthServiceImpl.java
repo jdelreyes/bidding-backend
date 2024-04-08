@@ -1,4 +1,4 @@
-package ca.jdelreyes.biddingbackend.service.auth;
+package ca.jdelreyes.biddingbackend.service.impl;
 
 import ca.jdelreyes.biddingbackend.dto.auth.AuthRequest;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthResponse;
@@ -6,12 +6,10 @@ import ca.jdelreyes.biddingbackend.dto.auth.RegisterRequest;
 import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.model.enums.Role;
 import ca.jdelreyes.biddingbackend.repository.UserRepository;
-import ca.jdelreyes.biddingbackend.service.jwt.JwtServiceImpl;
+import ca.jdelreyes.biddingbackend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,9 +54,5 @@ public class AuthServiceImpl implements AuthService {
         return AuthResponse.builder()
                 .token(jwtToken)
                 .build();
-    }
-
-    public final boolean isAdmin(UserDetails userDetails) {
-        return userRepository.existsByEmail(userDetails.getUsername());
     }
 }

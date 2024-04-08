@@ -1,7 +1,6 @@
 package ca.jdelreyes.biddingbackend.dto.bid;
 
 import ca.jdelreyes.biddingbackend.dto.auction.AuctionResponse;
-import ca.jdelreyes.biddingbackend.model.Auction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

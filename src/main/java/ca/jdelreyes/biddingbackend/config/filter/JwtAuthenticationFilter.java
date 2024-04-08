@@ -1,7 +1,7 @@
 package ca.jdelreyes.biddingbackend.config.filter;
 
 
-import ca.jdelreyes.biddingbackend.service.jwt.JwtServiceImpl;
+import ca.jdelreyes.biddingbackend.service.impl.JwtServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
