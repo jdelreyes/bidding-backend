@@ -1,6 +1,5 @@
 package ca.jdelreyes.biddingbackend.advice;
 
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.hibernate.tool.schema.spi.SqlScriptException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

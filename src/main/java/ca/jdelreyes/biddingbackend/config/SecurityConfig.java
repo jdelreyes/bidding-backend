@@ -27,7 +27,7 @@ public class SecurityConfig {
                         authorizeHttpRequestsCustomizer.requestMatchers("/api/auth/**")
                                 .permitAll()
                                 .anyRequest()
-                                .authenticated())
+                                .permitAll())
                 .sessionManagement(sessionManagementCustomizer ->
                         sessionManagementCustomizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
