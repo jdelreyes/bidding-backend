@@ -56,10 +56,10 @@ public class BidServiceImpl implements BidService {
         User user = userRepository.findUserById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("user does not exist"));
 
-        if (Objects.equals(user.getId(), auction.getItem().getSeller().getId()))
+        if (isCurrentUserSeller(user, auction))
             throw new Exception("Item is not to be bid by seller");
 
-        if (auction.getEndAt().isBefore(LocalDateTime.now()))
+        if (isItemInAuction(auction))
             throw new Exception("Item is not in auction");
 
         Double amount = auction.getItem().getCurrentBidAmount() + auction.getItem().getBidIncrement();
@@ -82,6 +82,14 @@ public class BidServiceImpl implements BidService {
         auctionRepository.save(auction);
 
         return mapBidToBidResponse(bid);
+    }
+
+    private boolean isItemInAuction(Auction auction) {
+        return auction.getStartAt().isBefore(LocalDateTime.now()) && auction.getEndAt().isAfter(LocalDateTime.now());
+    }
+
+    private boolean isCurrentUserSeller(User user, Auction auction) {
+        return Objects.equals(user.getId(), auction.getItem().getSeller().getId());
     }
 
     private BidResponse mapBidToBidResponse(Bid bid) {

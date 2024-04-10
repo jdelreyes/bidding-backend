@@ -13,15 +13,19 @@ they cannot create items, set an auction and bid on an item.
 ### Locally
 
 1. Pull and instantiate a MySQL and a PHPAdmin image.
+
     ```shell
     docker-compose -f docker-compose.local.yml up -d
     ```
 
-2. Start the application via your favorite IDE.
+2. Start the application with your favorite IDE.
 
 ### Docker
 
-1. Pull and instantiate a MySQL and a PHPAdmin image along with the containerized application.
+1. Install Maven Lifecycle.
+
+2. Pull and instantiate a MySQL and a PHPAdmin image along with the containerized application.
+
    ```shell
    docker-compose up -d
    ```

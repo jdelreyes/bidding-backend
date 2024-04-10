@@ -13,6 +13,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
       - mysql-bidding-backend
+    networks:
+      - bidding-backend
 
   mysql-bidding-backend:
     container_name: mysql-bidding-backend

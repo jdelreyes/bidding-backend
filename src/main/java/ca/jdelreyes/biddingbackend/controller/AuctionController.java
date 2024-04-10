@@ -6,6 +6,7 @@ import ca.jdelreyes.biddingbackend.dto.auction.UpdateAuctionRequest;
 import ca.jdelreyes.biddingbackend.exception.AuctionNotFoundException;
 import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.service.impl.AuctionServiceImpl;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class AuctionController {
 
     public ResponseEntity<AuctionResponse> auctionItem(
             @AuthenticationPrincipal User user,
-            @RequestBody CreateAuctionRequest createAuctionRequest) throws Exception {
+            @Valid @RequestBody CreateAuctionRequest createAuctionRequest) throws Exception {
         return new ResponseEntity<>(auctionService.createAuction(user.getId(), createAuctionRequest),
                 HttpStatus.CREATED);
     }
@@ -48,7 +49,7 @@ public class AuctionController {
     @PutMapping("/{auctionId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<AuctionResponse> updateAuction(@PathVariable("auctionId") Integer id,
-                                                         @RequestBody UpdateAuctionRequest updateAuctionRequest)
+                                                         @Valid @RequestBody UpdateAuctionRequest updateAuctionRequest)
             throws Exception {
         return new ResponseEntity<>(auctionService.updateAuction(id, updateAuctionRequest), HttpStatus.OK);
     }

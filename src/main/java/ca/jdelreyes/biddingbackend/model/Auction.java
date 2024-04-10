@@ -34,4 +34,10 @@ public class Auction {
 
     @OneToOne
     private User winner;
+
+    @PrePersist
+    private void prePersist() {
+        if (startAt.isAfter(endAt))
+            throw new RuntimeException("Auction start time is after end time");
+    }
 }

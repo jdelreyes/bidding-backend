@@ -8,7 +8,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class WebSocketController {
     @SendTo("/topic/bids")
-    public BidResponse sendBids(BidResponse bidResponse) {
+    @EventListener
+    public BidResponse onBid(BidResponse bidResponse) {
         return bidResponse;
     }
 }
