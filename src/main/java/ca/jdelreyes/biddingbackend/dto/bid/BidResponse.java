@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,5 +15,6 @@ import lombok.NoArgsConstructor;
 public class BidResponse {
     private Integer id;
     private Double amount;
+    private LocalDateTime bidAt;
     private AuctionResponse auction;
 }

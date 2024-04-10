@@ -88,6 +88,7 @@ public class BidServiceImpl implements BidService {
         return BidResponse.builder()
                 .id(bid.getId())
                 .amount(bid.getAmount())
+                .bidAt(bid.getBidAt())
                 .auction(mapAuctionToAuctionResponse(bid.getAuction()))
                 .build();
     }
@@ -123,7 +124,8 @@ public class BidServiceImpl implements BidService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .dateTimeCreated(user.getDateTimeCreated())
+                .joinedAt(user.getJoinedAt())
+                .updatedAt(user.getUpdatedAt())
                 .role(user.getRole())
                 .build();
     }

@@ -13,7 +13,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
 
-        // in this case, we dont want users to send messages to our websocket
+        // in this case, we don't want users to send messages to our websocket
         // config.setApplicationDestinationPrefixes("/app");
     }
 

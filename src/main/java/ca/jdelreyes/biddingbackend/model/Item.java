@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "items")
+@EntityListeners(AuditingEntityListener.class)
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +32,14 @@ public class Item {
 
     private Double bidIncrement = 0.1;
 
+    @CreatedDate
+    private LocalDateTime createdAt;
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Category category;
 
-    @Builder.Default
-    private final LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private User seller;

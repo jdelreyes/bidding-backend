@@ -2,6 +2,7 @@ package ca.jdelreyes.biddingbackend.dto.auction;
 
 import ca.jdelreyes.biddingbackend.dto.item.ItemResponse;
 import ca.jdelreyes.biddingbackend.model.User;
+import ca.jdelreyes.biddingbackend.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,8 @@ public class AuctionResponse {
     private LocalDateTime startAt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endAt;
+
+    private Status status;
 
     private ItemResponse item;
 

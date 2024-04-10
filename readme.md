@@ -2,8 +2,11 @@
 
 ## Overview
 
-An auction backend where users can sell their own items, view and bid on other user's items. These items are
+An auction backend application where users can sell their own items, view and bid on other user's items. These items are
 created with starting and final bid amount sold in an auction in a limited time.
+In addition, Bids are event streamed so that users have real-time updates of items` current price.
+In order to moderate the items that are auctioned, an admin account has super privilege over users' items. However,
+they cannot create items, set an auction and bid on an item.
 
 ## Installation and Running
 
@@ -23,3 +26,11 @@ created with starting and final bid amount sold in an auction in a limited time.
    docker-compose up -d
    ```
 
+## Featured Technology
+
+* Docker
+* WebSocket
+* Spring Events
+* Spring Security Filter
+* JWT
+* Role-Based Access Control

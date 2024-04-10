@@ -145,7 +145,7 @@ public class ItemServiceImpl implements ItemService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .dateTimeCreated(user.getDateTimeCreated())
+                .joinedAt(user.getJoinedAt())
                 .role(user.getRole())
                 .build();
     }

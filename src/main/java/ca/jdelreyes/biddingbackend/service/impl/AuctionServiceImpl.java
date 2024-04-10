@@ -107,7 +107,8 @@ public class AuctionServiceImpl implements AuctionService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .dateTimeCreated(user.getDateTimeCreated())
+                .joinedAt(user.getJoinedAt())
+                .updatedAt(user.getUpdatedAt())
                 .role(user.getRole())
                 .build();
     }

@@ -1,10 +1,13 @@
 package ca.jdelreyes.biddingbackend.model;
 
+import ca.jdelreyes.biddingbackend.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +25,9 @@ public class Auction {
     private Integer id;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToOne
     private Item item;

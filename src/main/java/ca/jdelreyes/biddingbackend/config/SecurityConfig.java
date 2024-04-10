@@ -24,10 +24,10 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequestsCustomizer ->
-                        authorizeHttpRequestsCustomizer.requestMatchers("/api/auth/**")
+                        authorizeHttpRequestsCustomizer.requestMatchers("/api/auth/**", "/ws-bidding-table/**")
                                 .permitAll()
                                 .anyRequest()
-                                .permitAll())
+                                .authenticated())
                 .sessionManagement(sessionManagementCustomizer ->
                         sessionManagementCustomizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
