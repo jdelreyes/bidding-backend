@@ -22,7 +22,11 @@ they cannot create items, set an auction and bid on an item.
 
 ### Docker
 
-1. Install Maven Lifecycle.
+1. Create an executable `JAR`.
+
+   ```shell
+   ./mvnw install
+   ```
 
 2. Pull and instantiate a MySQL and a PHPAdmin image along with the containerized application.
 
