@@ -37,7 +37,7 @@ public class UserController {
     @PutMapping("/{userId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserResponse> updateUser(@PathVariable("userId") Integer id,
-                                                   @RequestBody UpdateUserRequest updateUserRequest) {
+                                                   @Valid @RequestBody UpdateUserRequest updateUserRequest) {
         return new ResponseEntity<>(userService.updateUser(id, updateUserRequest), HttpStatus.OK);
     }
 

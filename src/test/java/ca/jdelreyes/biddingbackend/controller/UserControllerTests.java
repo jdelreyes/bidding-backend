@@ -1,8 +1,10 @@
 package ca.jdelreyes.biddingbackend.controller;
 
+import ca.jdelreyes.biddingbackend.AbstractMySQLContainerTest;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthRequest;
 import ca.jdelreyes.biddingbackend.dto.auth.AuthResponse;
 import ca.jdelreyes.biddingbackend.dto.auth.RegisterRequest;
+import ca.jdelreyes.biddingbackend.dto.user.UpdateUserRequest;
 import ca.jdelreyes.biddingbackend.dto.user.UserResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,56 +18,28 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserControllerTests {
+public class UserControllerTests extends AbstractMySQLContainerTest {
     private static String token;
-
+    private static Integer userId;
+    //    controller-specific
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private DataSource dataSource;
-
     @LocalServerPort
     private int port;
     private final String url = "http://localhost:" + port;
 
-    @Container
-    public static MySQLContainer<?> mySQLContainer =
-            new MySQLContainer<>(DockerImageName.parse("mysql:8.0.26"))
-                    .withDatabaseName("testdb")
-                    .withUsername("test")
-                    .withPassword("test")
-                    .waitingFor(Wait.forListeningPort())
-                    .withEnv("MYSQL_ROOT_HOST", "%");
-
-    @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", mySQLContainer::getUsername);
-        registry.add("spring.datasource.password", mySQLContainer::getPassword);
-    }
 
     @Test
     @Order(1)
@@ -99,6 +73,8 @@ public class UserControllerTests {
         List<UserResponse> userResponseList = objectMapper.readValue(jsonString, new TypeReference<List<UserResponse>>() {
         });
 
+        userId = userResponseList.get(1).getId();
+
         Assertions.assertThat(userResponseList).size().isEqualTo(2);
         Assertions.assertThat(userResponseList.get(1).getEmail()).isEqualTo(createRegisterRequest().getEmail());
     }
@@ -117,12 +93,33 @@ public class UserControllerTests {
         AuthResponse authResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AuthResponse.class);
         token = authResponse.getToken();
 
-        Assertions.assertThat(token).isNotNull();
+        Assertions.assertThat(authResponse.getToken()).isNotNull();
     }
 
     @Test
     @Order(4)
     void updateUser() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put(url + "/api/users/" + userId)
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createUpdateUserRequest())))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String jsonString = mvcResult.getResponse().getContentAsString();
+
+        UserResponse userResponse = objectMapper.readValue(jsonString, UserResponse.class);
+
+        Assertions.assertThat(userResponse).isNotNull();
+        Assertions.assertThat(userResponse.getEmail()).isEqualTo(createUpdateUserRequest().getEmail());
+    }
+
+    @Test
+    @Order(5)
+    void deleteUser() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete(url + "/api/users/" + userId)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
     private RegisterRequest createRegisterRequest() {
@@ -138,6 +135,15 @@ public class UserControllerTests {
         return AuthRequest.builder()
                 .email("admin@domain.ca")
                 .password("password")
+                .build();
+    }
+
+    private UpdateUserRequest createUpdateUserRequest() {
+        return UpdateUserRequest
+                .builder()
+                .email("jamesmark@email.ca")
+                .firstName("james")
+                .lastName("mark")
                 .build();
     }
 }
