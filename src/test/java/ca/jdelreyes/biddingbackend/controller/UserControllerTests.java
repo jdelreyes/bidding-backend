@@ -43,7 +43,7 @@ public class UserControllerTests extends AbstractMySQLContainerTest {
 
     @Test
     @Order(1)
-    void signUp() throws Exception {
+    void SignUpUser_Returns_Token() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(url + "/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createRegisterRequest())))
@@ -55,13 +55,11 @@ public class UserControllerTests extends AbstractMySQLContainerTest {
         AuthResponse authResponse = objectMapper.readValue(jsonString, AuthResponse.class);
 
         token = authResponse.getToken();
-
-        System.out.println(authResponse.getToken());
     }
 
     @Test
     @Order(2)
-    void getUsers() throws Exception {
+    void GetUser_Returns_UserResponse() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(url + "/api/users")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +79,7 @@ public class UserControllerTests extends AbstractMySQLContainerTest {
 
     @Test
     @Order(3)
-    void loginAsAdmin() throws Exception {
+    void LogInAsAdmin_Returns_Token() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(url + "/api/auth/authenticate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createAdminAuthRequest())
@@ -98,7 +96,7 @@ public class UserControllerTests extends AbstractMySQLContainerTest {
 
     @Test
     @Order(4)
-    void updateUser() throws Exception {
+    void UpdateUser_Returns_UserResponse() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put(url + "/api/users/" + userId)
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -116,7 +114,7 @@ public class UserControllerTests extends AbstractMySQLContainerTest {
 
     @Test
     @Order(5)
-    void deleteUser() throws Exception {
+    void DeleteUser() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(url + "/api/users/" + userId)
                         .header("Authorization", "Bearer " + token))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
