@@ -27,18 +27,18 @@ public class ItemController {
     private final ItemServiceImpl itemService;
 
     @GetMapping
-    public ResponseEntity<List<ItemResponse>> getItems() {
+    private ResponseEntity<List<ItemResponse>> getItems() {
         return ResponseEntity.ok(itemService.getItems());
     }
 
     @GetMapping("{itemId}")
-    public ResponseEntity<ItemResponse> getItem(@PathVariable("itemId") Integer id) throws ItemNotFoundException {
+    private ResponseEntity<ItemResponse> getItem(@PathVariable("itemId") Integer id) throws ItemNotFoundException {
         return ResponseEntity.ok(itemService.getItem(id));
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<?> createItem(@AuthenticationPrincipal User user,
+    private ResponseEntity<?> createItem(@AuthenticationPrincipal User user,
                                         @Valid @RequestBody CreateItemRequest createItemRequest)
             throws UserNotFoundException, CategoryNotFoundException {
         return new ResponseEntity<>(itemService.createItem(user.getId(), createItemRequest),
@@ -47,12 +47,14 @@ public class ItemController {
 
     @PutMapping("/{itemId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ItemResponse> updateItem(@PathVariable("itemId") Integer id, @RequestBody UpdateItemRequest updateItemRequest) throws ItemNotFoundException {
+    private ResponseEntity<ItemResponse> updateItem(@PathVariable("itemId") Integer id,
+                                                   @Valid @RequestBody UpdateItemRequest updateItemRequest)
+            throws ItemNotFoundException {
         return ResponseEntity.ok(itemService.updateItem(id, updateItemRequest));
     }
 
     @PutMapping("/update-item/{itemId}")
-    public ResponseEntity<ItemResponse> updateOwnItem(@AuthenticationPrincipal User user,
+    private ResponseEntity<ItemResponse> updateOwnItem(@AuthenticationPrincipal User user,
                                                       @PathVariable("itemId") Integer id,
                                                       UpdateItemRequest updateItemRequest) throws Exception {
 
@@ -61,13 +63,13 @@ public class ItemController {
 
     @DeleteMapping("/{itemId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> deleteItem(@PathVariable("itemId") Integer id) throws Exception {
+    private ResponseEntity<?> deleteItem(@PathVariable("itemId") Integer id) throws Exception {
         itemService.deleteItem(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/delete-item/{itemId}")
-    public ResponseEntity<?> deleteOwnItem(@AuthenticationPrincipal User user,
+    private ResponseEntity<?> deleteOwnItem(@AuthenticationPrincipal User user,
                                            @PathVariable("itemId") Integer id) throws Exception {
         itemService.deleteOwnItem(user.getId(), id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

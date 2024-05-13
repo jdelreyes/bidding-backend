@@ -1,6 +1,5 @@
 package ca.jdelreyes.biddingbackend.config;
 
-import ca.jdelreyes.biddingbackend.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -18,4 +17,5 @@ public class ApplicationTestConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

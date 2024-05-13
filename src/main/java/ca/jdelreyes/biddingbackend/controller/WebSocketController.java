@@ -10,6 +10,7 @@ public class WebSocketController {
     @SendTo("/topic/bids")
     @EventListener
     public BidResponse onBid(BidResponse bidResponse) {
+
         return bidResponse;
     }
 }

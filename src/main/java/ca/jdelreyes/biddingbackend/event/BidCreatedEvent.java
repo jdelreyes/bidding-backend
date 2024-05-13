@@ -1,4 +1,4 @@
-package ca.jdelreyes.biddingbackend.events;
+package ca.jdelreyes.biddingbackend.event;
 
 import ca.jdelreyes.biddingbackend.dto.bid.BidResponse;
 import lombok.AllArgsConstructor;
