@@ -82,8 +82,7 @@ public class AuthControllerTests extends AbstractMySQLContainerTest {
 
     private AuthResponse getAuthResponse(MvcResult mvcResult) throws UnsupportedEncodingException, JsonProcessingException {
         String jsonString = mvcResult.getResponse().getContentAsString();
-        AuthResponse authResponse = objectMapper.readValue(jsonString, AuthResponse.class);
-        return authResponse;
+        return objectMapper.readValue(jsonString, AuthResponse.class);
     }
 
     private AuthRequest loginAsUser() {

@@ -33,6 +33,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponse getUserByEmail(String email) throws UserNotFoundException {
+        return mapUserToUserResponse(userRepository.findUserByEmail(email)
+                .orElseThrow(UserNotFoundException::new));
+    }
+
+    @Override
     public UserResponse changeOwnPassword(Integer id, ChangePasswordRequest changePasswordRequest) throws Exception {
         User user = userRepository.findUserById(id).orElseThrow(UserNotFoundException::new);
 

@@ -12,6 +12,8 @@ public interface UserService {
 
     UserResponse getUser(Integer id) throws UserNotFoundException;
 
+    UserResponse getUserByEmail(String email) throws UserNotFoundException;
+
     UserResponse changeOwnPassword(Integer id, ChangePasswordRequest changePasswordRequest) throws Exception;
 
     UserResponse updateOwnProfile(Integer id, UpdateUserRequest updateUserRequest) throws UserNotFoundException;

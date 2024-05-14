@@ -1,5 +1,6 @@
 package ca.jdelreyes.biddingbackend.dto.user;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,5 +17,6 @@ public class UpdateUserRequest {
     @NotEmpty
     private String lastName;
     @NotEmpty
+    @Email
     private String email;
 }

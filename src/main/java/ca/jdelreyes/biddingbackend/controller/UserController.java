@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -25,7 +25,9 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getUsers() {
+    public ResponseEntity<?> getUsers(@RequestParam Optional<String> userName) throws UserNotFoundException {
+        if (userName.isPresent())
+            return ResponseEntity.ok(userService.getUserByEmail(userName.get()));
         return ResponseEntity.ok(userService.getUsers());
     }
 
@@ -51,7 +53,7 @@ public class UserController {
 
     @PutMapping("/update-profile")
     public ResponseEntity<UserResponse> updateOwnProfile(@AuthenticationPrincipal User user,
-                                                         @RequestBody UpdateUserRequest updateUserRequest)
+                                                         @Valid @RequestBody UpdateUserRequest updateUserRequest)
             throws UserNotFoundException {
         return new ResponseEntity<>(userService.updateOwnProfile(user.getId(), updateUserRequest),
                 HttpStatus.OK);
