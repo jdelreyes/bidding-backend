@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class LoggingAspect {
-    @Before("execution(* ca.jdelreyes.*.*.*(..))")
+    @Before("execution(* ca.jdelreyes.biddingbackend.service.impl.*.*(..))")
     public void logBeforeMethods(@NonNull JoinPoint joinPoint) {
         log.info(joinPoint.toString());
     }
