@@ -3,13 +3,11 @@ package ca.jdelreyes.biddingbackend.service.impl;
 import ca.jdelreyes.biddingbackend.dto.auction.AuctionResponse;
 import ca.jdelreyes.biddingbackend.dto.auction.CreateAuctionRequest;
 import ca.jdelreyes.biddingbackend.dto.auction.UpdateAuctionRequest;
-import ca.jdelreyes.biddingbackend.dto.item.ItemResponse;
-import ca.jdelreyes.biddingbackend.dto.user.UserResponse;
 import ca.jdelreyes.biddingbackend.exception.AuctionNotFoundException;
 import ca.jdelreyes.biddingbackend.exception.ItemNotFoundException;
+import ca.jdelreyes.biddingbackend.mapper.Mapper;
 import ca.jdelreyes.biddingbackend.model.Auction;
 import ca.jdelreyes.biddingbackend.model.Item;
-import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.repository.AuctionRepository;
 import ca.jdelreyes.biddingbackend.repository.ItemRepository;
 import ca.jdelreyes.biddingbackend.service.AuctionService;
@@ -19,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ca.jdelreyes.biddingbackend.mapper.Mapper.mapAuctionToAuctionResponse;
+
 @RequiredArgsConstructor
 @Service
 public class AuctionServiceImpl implements AuctionService {
@@ -27,7 +27,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     @Override
     public List<AuctionResponse> getAuctions() {
-        return auctionRepository.findAll().stream().map(this::mapAuctionToAuctionResponse).collect(Collectors.toList());
+        return auctionRepository.findAll().stream().map(Mapper::mapAuctionToAuctionResponse).collect(Collectors.toList());
     }
 
     @Override
@@ -76,40 +76,5 @@ public class AuctionServiceImpl implements AuctionService {
         return mapAuctionToAuctionResponse(auction);
     }
 
-    private AuctionResponse mapAuctionToAuctionResponse(Auction auction) {
-        return AuctionResponse.builder()
-                .id(auction.getId())
-                .startAt(auction.getStartAt())
-                .endAt(auction.getEndAt())
-                .item(mapItemToItemResponse(auction.getItem()))
-                .winner(auction.getWinner())
-                .build();
-    }
 
-    private ItemResponse mapItemToItemResponse(Item item) {
-        return ItemResponse.builder()
-                .id(item.getId())
-                .name(item.getName())
-                .description(item.getDescription())
-                .createdAt(item.getCreatedAt())
-                .startBidAmount(item.getStartBidAmount())
-                .finalBidAmount(item.getFinalBidAmount())
-                .currentBidAmount(item.getCurrentBidAmount())
-                .bidIncrement(item.getBidIncrement())
-                .seller(mapUserToUserResponse(item.getSeller()))
-                .category(item.getCategory())
-                .build();
-    }
-
-    private UserResponse mapUserToUserResponse(User user) {
-        return UserResponse.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .joinedAt(user.getJoinedAt())
-                .updatedAt(user.getUpdatedAt())
-                .role(user.getRole())
-                .build();
-    }
 }

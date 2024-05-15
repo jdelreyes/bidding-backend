@@ -5,6 +5,7 @@ import ca.jdelreyes.biddingbackend.dto.user.UpdateUserRequest;
 import ca.jdelreyes.biddingbackend.dto.user.UserResponse;
 import ca.jdelreyes.biddingbackend.exception.PasswordNotMatch;
 import ca.jdelreyes.biddingbackend.exception.UserNotFoundException;
+import ca.jdelreyes.biddingbackend.mapper.Mapper;
 import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.repository.UserRepository;
 import ca.jdelreyes.biddingbackend.service.UserService;
@@ -23,18 +24,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponse> getUsers() {
-        return userRepository.findAll().stream().map(this::mapUserToUserResponse).toList();
+        return userRepository.findAll().stream().map(Mapper::mapUserToUserResponse).toList();
     }
 
     @Override
     public UserResponse getUser(Integer id) throws UserNotFoundException {
-        return mapUserToUserResponse(userRepository.findById(id)
+        return Mapper.mapUserToUserResponse(userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new));
     }
 
     @Override
     public UserResponse getUserByEmail(String email) throws UserNotFoundException {
-        return mapUserToUserResponse(userRepository.findUserByEmail(email)
+        return Mapper.mapUserToUserResponse(userRepository.findUserByEmail(email)
                 .orElseThrow(UserNotFoundException::new));
     }
 
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
         userRepository.save(user);
 
-        return mapUserToUserResponse(user);
+        return Mapper.mapUserToUserResponse(user);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        return mapUserToUserResponse(user);
+        return Mapper.mapUserToUserResponse(user);
     }
 
 
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(updateUserRequest.getLastName());
         user.setEmail(updateUserRequest.getEmail());
 
-        return mapUserToUserResponse(user);
+        return Mapper.mapUserToUserResponse(user);
     }
 
 
@@ -82,17 +83,5 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(Integer id) {
         userRepository.deleteUserById(id);
-    }
-
-    private UserResponse mapUserToUserResponse(User user) {
-        return UserResponse.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .joinedAt(user.getJoinedAt())
-                .updatedAt(user.getUpdatedAt())
-                .role(user.getRole())
-                .build();
     }
 }

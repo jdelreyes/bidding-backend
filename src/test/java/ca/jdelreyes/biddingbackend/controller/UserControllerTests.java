@@ -232,7 +232,7 @@ public class UserControllerTests extends AbstractMySQLContainerTest {
 
     private UpdateUserRequest updateUserRequest() {
         return UpdateUserRequest.builder()
-                .email("updateJonhdoe@email.com")
+                .email("updatedJonhdoe@email.com")
                 .firstName("updatedJohn")
                 .lastName("updatedDoe")
                 .build();

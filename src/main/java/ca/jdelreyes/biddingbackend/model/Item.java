@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "items")
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +40,6 @@ public class Item {
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Category category;
 
-
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private User seller;
-
 }

@@ -10,6 +10,7 @@ import ca.jdelreyes.biddingbackend.model.User;
 import ca.jdelreyes.biddingbackend.service.impl.ItemServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/items")
 @EnableMethodSecurity
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class ItemController {
     private final ItemServiceImpl itemService;
 
@@ -39,7 +40,7 @@ public class ItemController {
     @PostMapping
     @PreAuthorize("hasAuthority('USER')")
     private ResponseEntity<?> createItem(@AuthenticationPrincipal User user,
-                                        @Valid @RequestBody CreateItemRequest createItemRequest)
+                                         @Valid @RequestBody CreateItemRequest createItemRequest)
             throws UserNotFoundException, CategoryNotFoundException {
         return new ResponseEntity<>(itemService.createItem(user.getId(), createItemRequest),
                 HttpStatus.CREATED);
@@ -48,15 +49,15 @@ public class ItemController {
     @PutMapping("/{itemId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     private ResponseEntity<ItemResponse> updateItem(@PathVariable("itemId") Integer id,
-                                                   @Valid @RequestBody UpdateItemRequest updateItemRequest)
+                                                    @Valid @RequestBody UpdateItemRequest updateItemRequest)
             throws ItemNotFoundException {
         return ResponseEntity.ok(itemService.updateItem(id, updateItemRequest));
     }
 
     @PutMapping("/update-item/{itemId}")
     private ResponseEntity<ItemResponse> updateOwnItem(@AuthenticationPrincipal User user,
-                                                      @PathVariable("itemId") Integer id,
-                                                      UpdateItemRequest updateItemRequest) throws Exception {
+                                                       @PathVariable("itemId") Integer id,
+                                                       UpdateItemRequest updateItemRequest) throws Exception {
 
         return ResponseEntity.ok(itemService.updateOwnItem(user.getId(), id, updateItemRequest));
     }
@@ -70,7 +71,7 @@ public class ItemController {
 
     @DeleteMapping("/delete-item/{itemId}")
     private ResponseEntity<?> deleteOwnItem(@AuthenticationPrincipal User user,
-                                           @PathVariable("itemId") Integer id) throws Exception {
+                                            @PathVariable("itemId") Integer id) throws Exception {
         itemService.deleteOwnItem(user.getId(), id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

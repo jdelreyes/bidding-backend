@@ -25,8 +25,6 @@ public class UserServiceTests {
     public void GetUsers_Returns_UserResponseList() {
         List<UserResponse> userResponseList = userService.getUsers();
 
-        System.out.println(userResponseList);
-
         Assertions.assertThat(userResponseList.size()).isEqualTo(0);
     }
 

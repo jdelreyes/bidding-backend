@@ -8,6 +8,9 @@ spring:
     show-sql: true
     database: H2
     database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
   test:
     database:
       replace: none

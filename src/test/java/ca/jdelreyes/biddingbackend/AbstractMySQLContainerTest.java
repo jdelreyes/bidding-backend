@@ -2,6 +2,7 @@ package ca.jdelreyes.biddingbackend;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -10,8 +11,8 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers
 public abstract class AbstractMySQLContainerTest {
     @Container
-    public static org.testcontainers.containers.MySQLContainer<?> mySQLContainer =
-            new org.testcontainers.containers.MySQLContainer<>(DockerImageName.parse("mysql:8.0.26"))
+    public static MySQLContainer<?> mySQLContainer =
+            new MySQLContainer<>(DockerImageName.parse("mysql:8.0.26"))
                     .withDatabaseName("testdb")
                     .withUsername("test")
                     .withPassword("test")
